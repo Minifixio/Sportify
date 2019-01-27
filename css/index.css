@@ -1,0 +1,182 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+
+.event {
+    border-radius:4px;
+    -webkit-border-radius:4px;
+    color:#FFFFFF;
+    font-size:12px;
+    margin:0px 30px;
+    padding:2px 0px;
+}
+
+.event.listening {
+    background-color:#333333;
+    display:block;
+}
+
+.event.received {
+    background-color:#4B946A;
+    display:none;
+}
+
+@keyframes fade {
+    from { opacity: 1.0; }
+    50% { opacity: 0.4; }
+    to { opacity: 1.0; }
+}
+ 
+@-webkit-keyframes fade {
+    from { opacity: 1.0; }
+    50% { opacity: 0.4; }
+    to { opacity: 1.0; }
+}
+ 
+.blink {
+    animation:fade 3000ms infinite;
+    -webkit-animation:fade 3000ms infinite;
+}
+
+#resultDiv {
+    font: 40px "Source Sans", helvetica, arial, sans-serif;
+    font-weight: 50;
+    -webkit-border-radius: 6px;
+    width: auto;
+    height: auto;
+    position: relative;
+    text-align: center;
+    left: 40px;
+    right: 0;
+    bottom: 170px;
+}
+
+#moyenneDiv {
+    font: 16px "Source Sans", helvetica, arial, sans-serif;
+    font-weight: 200;
+    display: block;
+    -webkit-border-radius: 6px;
+    width: 100%;
+    height: 50px;
+    text-align: left;    
+    overflow: auto;
+}
+
+#pulseCircle{
+    width: 300px;
+    height: 300px;
+    background-color: rgb(0, 119, 204);
+    border-radius: 50%;
+    position: relative;
+    left:40;
+    right:0;
+    margin:auto;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0px 0px 0px 0px rgba(35, 130, 220,1);
+    }
+    100% {
+       box-shadow: 0px 0px 5px 25px rgba(35, 130, 220,0);
+    }
+}  
+
+.run-animation {
+    position:relative;
+    animation: pulse 0.7s ease;
+}
+
+#pulseDiv{
+    display: inline-block;
+    position: relative;
+    margin: auto;
+    right: 0;
+    left: 0;
+    display: none;
+}
+
+.md .navbar .title{
+    margin: auto;
+}
+
+#refreshButton{
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    width: 30%;
+    margin: auto;
+}
+
+#listTitle{
+    text-align: center;
+    line-height: 40px;
+    font-weight: 100;
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+}
+
+#connectionPage{
+    padding-bottom: 1px;
+}
+
+#bpmGauge{
+    top: 140px;
+    left: 31px;
+}
+
+#disconnectButton{
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    top: 200px;
+    margin: auto;
+    width:30%;
+}
+
+#updateIdButton{
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    width: 30%;
+    margin: auto;
+    margin-bottom:10px;
+}
+
+#matchButton{
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    width: 30%;
+    margin: auto;
+    margin-bottom:10px;
+}
+
+#playRandomButton{
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    width: 30%;
+    margin: auto;
+    margin-bottom:10px;
+}
+
+.music-player {
+    position: relative;
+    background-color: #A8A8A8;
+    border-radius: 15px;
+    width: 300px;
+    height: 80px;
+    z-index: 5;
+    box-shadow: 0px 20px 20px 5px rgba(132, 132, 132, 0.3);
+}
+
+#playListPage{
+    top:40px;
+}
