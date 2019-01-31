@@ -180,3 +180,20 @@
 #playListPage{
     top:40px;
 }
+
+#sendButton{
+    display: hidden;
+    visibility: hidden;
+}
+
+#button_playerArrows{
+    font-size: 30px;
+    text-align: center;
+    margin: auto;
+}
+
+#button_player{
+    font-size: 10px;
+    text-align: center;
+    margin: auto;
+}

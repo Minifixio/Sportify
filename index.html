@@ -35,170 +35,140 @@
   <div id="app">
     <!-- Status bar overlay for fullscreen mode-->
     <div class="statusbar"></div>
-    <!-- Left panel with cover effect-->
-    <div class="panel panel-left panel-cover theme-dark">
-      <div class="view">
-        <div class="page">
-          <div class="navbar">
-            <div class="navbar-inner">
-              <div class="title">Left Panel</div>
-            </div>
-          </div>
-          <div class="page-content">
-            <div class="block">Left panel content goes here</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
+    
     <!-- Views/Tabs container -->
     <div class="views tabs ios-edges">
       <!-- Tabbar for switching views-tabs -->
       <div class="toolbar tabbar-labels toolbar-bottom-md">
         <div class="toolbar-inner">
           <a href="#view-home" class="tab-link tab-link-active">
-            <i class="icon f7-icons ios-only">home</i>
-            <i class="icon f7-icons ios-only icon-ios-fill">home_fill</i>
-            <i class="icon material-icons md-only">home</i>
-            <span class="tabbar-label">Home</span>
+            <i class="f7-icons size-18">graph_round_fill</i>
+            <span class="tabbar-label">Your run</span>
           </a>
           <a href="#view-catalog" class="tab-link">
-            <i class="icon f7-icons ios-only">list</i>
-            <i class="icon f7-icons ios-only icon-ios-fill">list_fill</i>
-            <i class="icon material-icons md-only">view_list</i>
+            <i class="f7-icons size-18">tune_fill</i>
             <span class="tabbar-label">Playlist</span>
           </a>
-          <a href="#view-settings" class="tab-link">
-            <i class="icon f7-icons ios-only">settings</i>
-            <i class="icon f7-icons ios-only icon-ios-fill">settings_fill</i>
-            <i class="icon material-icons md-only">settings</i>
-            <span class="tabbar-label">Settings</span>
-          </a>
         </div>
       </div>
+
       <!-- Your main view/tab, should have "view-main" class. It also has "tab-active" class -->
-      <div id="view-home" class="view view-main tab tab-active">
-        <!-- Page, data-name contains page name which can be used in page callbacks -->
-        <div class="page" data-name="home">
-          <!-- Top Navbar -->
-          <div class="navbar">
-            <div class="navbar-inner">
-               <!--<div class="left">
-               <a href="#" class="link icon-only panel-open" data-panel="left">
-                  <i class="icon f7-icons ios-only">menu</i>
-                  <i class="icon material-icons md-only">menu</i>
-                </a>
-              </div>-->
-              <div class="title sliding">Home</div>
+      <div class="tabs-animated-wrap">
+        <div class="tabs">
+          <div id="view-home" class="view view-main tab tab-active">
+
+            <!-- Page, data-name contains page name which can be used in page callbacks -->
+            <div class="page" data-name="home">
+
+              <!-- Top Navbar -->
+              <div class="navbar" id="titleHomePage">
+                <div class="navbar-inner">
+                  <div class="title sliding">Connect your device !</div>
+                </div>
+              </div>
+                
+              <!-- Scrollable page content-->
+              <div id="deviceready">
+                <div class="block block-strong" id="connectionPage">
+                    <div class="block">
+                        <div id="mainPage">
+                            <div class="block-title" id="listTitle">available devices :</div>
+                            <ul id="deviceList">                    
+                            </ul>                        
+                      </div>
+                    </div>
+                </div>
+
+                <div id="refreshButtonDiv">
+                  <button class="col button button-small button-round button-outline" id="refreshButton">Refresh</button>
+                </div>
+
+                <!-- Detail page -->
+                <div id="detailPage">
+
+                  <div>
+                      <button class="button" id="sendButton">Send</button>                    
+                  </div>
+
+                  <div id="pulseDiv">
+                      <div id="pulseCircle" class="run-animation"></div>
+                      <div id="resultDiv"></div>
+                  </div>
+                  <div class="gauge bpm-gauge" id="bpmGauge"></div>
+
+                  <button class="col button button-small button-round button-outline" id="disconnectButton">Disconnect</button>
+                </div>
+              </div>
             </div>
           </div>
 
 
-          <!--<div id="deviceready">
-            <p class="event listening">Connecting to Device</p>
-            <p class="event received">Bonjour Emile, voici tes supers morceaux</p>
-          </div>
-          
-          <input type="text" id="spotifyId" value=""/>
-          <button id="updateIdButton">Update</button>
-          <button id="matchButton">Match</button>--> 
+
+          <!-- Playlist page -->
+          <div id="view-catalog" class="view tab">
             
-          <!-- Scrollable page content-->
-          <div id="deviceready">
-            <div class="block block-strong" id="connectionPage">
-                <div class="block">
-                    <div id="mainPage">
-                        <div class="block-title" id="listTitle">available devices :</div>
-                        <ul id="deviceList">                    
-                        </ul>                        
-                  </div>
-                </div>
-            </div>
-            
-            <div id="refreshButtonDiv">
-              <button class="col button button-small button-round button-outline" id="refreshButton">Refresh</button>
+            <div class="navbar" id="titleHomePage">
+              <div class="navbar-inner">
+                <div class="title sliding">Playlists</div>
+              </div>
             </div>
 
-
-            <div id="detailPage">
-
-              <div>
-                  <button class="button" id="sendButton">Send</button>                    
-              </div>
-
-              <div id="pulseDiv">
-                  <div id="pulseCircle" class="run-animation"></div>
-                  <div id="resultDiv"></div>
-              </div>
-
-              <div class="gauge bpm-gauge" id="bpmGauge"></div>
-              <button class="col button button-small button-round button-outline" id="disconnectButton">Disconnect</button>
-            </div>
-
-        </div>
-       </div>
-      </div>
-
-      <!-- Catalog View -->
-      <div id="view-catalog" class="view tab">
-        <!-- Catalog page will be loaded here dynamically from /catalog/ route -->
-        <div class="list no-hairlines-md" id="playListPage">
-          <ul>
-            <li>
-              <div class="item-content item-input">
-                <div class="item-inner">
-                  <div class="item-title item-label">PLAYLIST LINK</div>
-                  <div class="item-input-wrap">
-                    <input type="text" placeholder="spotify playlits url" id="spotifyId"/>
-                  </div>
-                </div>
-              </div>
-            </li>
-
-            <li>
-              <div class="block block-strong">
-                  <button class="col button button-small button-round button-outline" id="updateIdButton">Update</button>
-                  <button class="col button button-small button-round button-outline" id="matchButton">Match</button>
-                  <button class="col button button-small button-round button-outline" id="playRandomButton">Play</button>
-                </div>
-
-            </li>
-
-          </ul>
-        </div>
-
-        <div class="block block-strong">
-              <div class="card">
-                  <div class="card-header">New Releases:</div>
-                  <div class="card-content">
-                    <div class="list media-list">
-                      <ul>
-                        <li class="item-content">
-                          <div class="item-media"><img src="" width="44" id="trackImage"/></div>
-                          <div class="item-inner">
-                            <div class="item-title-row">
-                              <div class="item-title">Don't Stop Me Now</div>
-                            </div>
-                            <div class="item-subtitle">Queen</div>
-                          </div>
-                        </li>
-                      </ul>
+            <div class="list no-hairlines-md" id="playListPage">
+              <ul>
+                <li>
+                  <div class="item-content item-input">
+                    <div class="item-inner">
+                      <div class="item-title item-label">PLAYLIST LINK</div>
+                      <div class="item-input-wrap">
+                        <input type="text" placeholder="spotify playlits url" id="spotifyId"/>
+                      </div>
                     </div>
                   </div>
-                  <div class="card-footer"><a href="#" class="link">&#8592</a><a href="#" class="link">&#9208</a><a href="#" class="link">&#8594</a></div>
+                </li>
+
+                <li>
+                  <div class="block block-strong">
+                      <button class="col button button-small button-round button-outline" id="updateIdButton">Update</button>
+                      <button class="col button button-small button-round button-outline" id="matchButton">Match</button>
+                      <button class="col button button-small button-round button-outline" id="playRandomButton">Play</button>
+                    </div>
+
+                </li>
+              </ul>
+            </div>
+
+            <div class="block block-strong">
+            <div class="card">
+                <div class="card-content">
+                  <div class="list media-list">
+
+                    <ul>
+                      <li class="item-content">
+                        <div class="item-media"><img src="" width="76" id="trackImage"/></div>
+                        <div class="item-inner">
+                          <div class="item-title-row">
+                            <div class="item-title" id="player_trackTitle"><b>No track played</b></div>
+                          </div>
+                          <div class="item-subtitle" id="player_trackArtist">--</div>
+                        </div>
+                      </li>
+                    </ul>
+
+                  </div>
                 </div>
+                <div class="card-footer"><a href="" class="col button button-outline button-round" id="button_playerArrows">&#8592</a><a href="javascript:bpmPlayer.pauseTrack();" class="col button button-outline button-round" id="button_player">&#9616;&nbsp;&#9612;</a><a href="#" class="col button button-outline button-round" id="button_playerArrows">&#8594</a></div>
+              </div>
+            </div>
 
+          <button id="updateIdButton">Update</button>
+          <button id="matchButton">Match</button>  
+          </div>
+
+          <!-- One more page -->
+          <div id="view-settings" class="view tab">
+            <!-- La page 3 -->
+          </div>
         </div>
-      <!--<input type="text" id="spotifyId" value=""/>-->
-
-      <button id="updateIdButton">Update</button>
-      <button id="matchButton">Match</button>  
-      </div>
-
-      <!-- Settings View -->
-      <div id="view-settings" class="view tab">
-        <!-- Settings page will be loaded here dynamically from /settings/ route -->
       </div>
     </div>
   </div>

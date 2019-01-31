@@ -15,6 +15,9 @@ var spotifyIdInput = document.getElementById("spotifyId");
 var updateIdButton = document.getElementById("updateIdButton");
 var playRandomButton = document.getElementById("playRandomButton");
 var matchButton = document.getElementById("matchButton");
+var player_trackTitle = document.getElementById("player_trackTitle");
+var player_trackArtist = document.getElementById("player_trackArtist");
+var trackImage = document.getElementById("trackImage");
 var totalArray = 0;
 var bpmArray = new Array();
 var tempoArray = new Array();
@@ -24,6 +27,7 @@ var tempo3 = new Array();
 var tempo4 = new Array();
 const trackInfo = {};
 var currentTrack;
+var randomTrack;
 var position = 0;
 var randomTrack;
 var nextTrack;
@@ -41,7 +45,7 @@ var total = 0;
 var pulseCircle = document.getElementById("pulseCircle");
 var refreshButtonDiv = document.getElementById("refreshButtonDiv");
 var connectionPage = document.getElementById("connectionPage");
-var trackImage = document.createElement("trackImage");
+var titleHomePage = document.getElementById("titleHomePage");
 
 // Dom7
 var $$ = Dom7;
@@ -284,6 +288,7 @@ var bluefruitConnect = {
       connectionPage.hidden = false;
       detailPage.hidden = true;
       sendButton.hidden = false;
+      titleHomePage.hidden = false;
   },
   showDetailPage: function() {
       refreshButtonDiv.hidden = true;
@@ -291,6 +296,7 @@ var bluefruitConnect = {
       connectionPage.hidden = true;
       detailPage.hidden = false;
       sendButton.hidden = true;
+      titleHomePage.hidden = true;
   },
   onError: function(reason) {
       alert("ERROR: " + JSON.stringify(reason)); // real apps should use notification.alert
@@ -414,7 +420,7 @@ var bpmPlayer = {
         console.log("BPM Array :");
         console.log(bpmArray);
 
-        sortTracks(); // Sort tracks
+        bpmPlayer.sortTracks(); // Sort tracks
     },
 
     // Sort tracks based on their tempo
@@ -466,15 +472,17 @@ var bpmPlayer = {
     // Play a random track when the run begin
     playRandomTrack: function(){
         randomTrack = bpmArray[Math.floor(Math.random() * bpmArray.length)];
-        cordova.plugins.spotify.play(randomTrack.uri, { 
+        /** cordova.plugins.spotify.play(randomTrack.uri, { 
             clientId: bpmPlayer.spotifyAppClientId,
             token: bpmPlayer.accessToken
-          }).then(() => console.log("Music is playing ????"));
+          }).then(() => console.log("Music is playing ????"));*/
         
         // Reset the currentTrack and BPM mean value
         currentTrack = randomTrack;
         total = 0;
         compteur=0;
+        console.log(currentTrack.name);
+        bpmPlayer.udpateTrackInfos();
     },
 
     // Check constant position on the played track
@@ -494,17 +502,17 @@ var bpmPlayer = {
             console.log("Le track " + currentTrack.name + " est fini");
             
             moyenne = total/compteur; // Get BPM mean value
-            matchTrack(moyenne); // Match track based on last song's BPM mean value
+            bpmPlayer.matchTrack(moyenne); // Match track based on last song's BPM mean value
             
             // If the track is the same, repeat
             if(nextTrack.name == currentTrack.name){
-                matchTrack();
+                bpmPlayer.matchTrack();
             }
             else{
                 console.log("Prochain track : " + nextTrack.name);
             }
 
-            playTrack(nextTrack);
+            bpmPlayer.playTrack(nextTrack);
 
             // Reset values for next song
             total=0;
@@ -548,13 +556,16 @@ var bpmPlayer = {
     // Udpate track widget on the page
     // TODO
     udpateTrackInfos: function(){
-
-    },
+        player_trackTitle.innerHTML = currentTrack.name;
+        player_trackArtist.innerHTML = currentTrack.artists;
+        trackImage.src = currentTrack.imgUrl;
+        console.log(currentTrack.imgUrl);
+    },  
 
     // React when a user press pause
     // TODO
     pauseTrack: function(){
-
+        
     },
 
     // React when a user press resume
