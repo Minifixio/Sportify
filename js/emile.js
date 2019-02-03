@@ -18,6 +18,7 @@ var matchButton = document.getElementById("matchButton");
 var player_trackTitle = document.getElementById("player_trackTitle");
 var player_trackArtist = document.getElementById("player_trackArtist");
 var trackImage = document.getElementById("trackImage");
+var button_player = document.getElementById("button_player");
 var totalArray = 0;
 var bpmArray = new Array();
 var tempoArray = new Array();
@@ -31,6 +32,7 @@ var randomTrack;
 var position = 0;
 var randomTrack;
 var nextTrack;
+var playingState = 0;
 
 var pulseMax = 200;
 var pulseMin = 50;
@@ -59,12 +61,11 @@ var $$ = Dom7;
 var app  = new Framework7({
   root: '#app', // App root element
   id: 'io.framework7.testapp', // App bundle ID
-  name: 'Framework7', // App name
+  name: 'Sportify', // App name
   theme: 'auto', // Automatic theme detection
   touch : {
     disableContextMenu: false,
   },
-
 
   // App root data
   data: function () {
@@ -79,16 +80,6 @@ var app  = new Framework7({
           id: '1',
           title: 'Apple iPhone 8',
           description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi tempora similique reiciendis, error nesciunt vero, blanditiis pariatur dolor, minima sed sapiente rerum, dolorem corrupti hic modi praesentium unde saepe perspiciatis.'
-        },
-        {
-          id: '2',
-          title: 'Apple iPhone 8 Plus',
-          description: 'Velit odit autem modi saepe ratione totam minus, aperiam, labore quia provident temporibus quasi est ut aliquid blanditiis beatae suscipit odio vel! Nostrum porro sunt sint eveniet maiores, dolorem itaque!'
-        },
-        {
-          id: '3',
-          title: 'Apple iPhone X',
-          description: 'Expedita sequi perferendis quod illum pariatur aliquam, alias laboriosam! Vero blanditiis placeat, mollitia necessitatibus reprehenderit. Labore dolores amet quos, accusamus earum asperiores officiis assumenda optio architecto quia neque, quae eum.'
         },
       ]
     };
@@ -121,13 +112,11 @@ var bpmGauge = app.gauge.create({
     size: 350,
     borderColor: '#f44336',
     borderWidth: 20,
-    valueText: 'start',
+    valueText: 'begin now!',
     valueFontSize: 60,
     valueTextColor: '#2196f3',
     labelText: '&hearts; BPM',
   });
-
-
 
 // Login Screen Demo
 $$('#my-login-screen .login-button').on('click', function () {
@@ -140,7 +129,6 @@ $$('#my-login-screen .login-button').on('click', function () {
   // Alert username and password
   app.dialog.alert('Username: ' + username + '<br>Password: ' + password);
 });
-
 
 
 
@@ -177,7 +165,9 @@ var bluefruitConnect = {
   },
   onDeviceReady: function() {
     bluefruitConnect.refreshDeviceList();
+    bluefruitConnect.showDetailPage();
   },
+  
   refreshDeviceList: function() {
       deviceList.innerHTML = ''; // empties the list
       ble.scan([bluefruit.serviceUUID], 5, bluefruitConnect.onDiscoverDevice, bluefruitConnect.onError);
@@ -328,7 +318,7 @@ var bpmPlayer = {
     // Bind events
     bindSpotifyEvents: function() {
         updateIdButton.addEventListener('click', bpmPlayer.listTracks, false);
-        matchButton.addEventListener('click', bpmPlayer.matchTrack, false);
+        matchButton.addEventListener('click', bpmPlayer.sortTracks, false);
         playRandomButton.addEventListener('click', bpmPlayer.playRandomTrack, false);
     },
     
@@ -420,7 +410,6 @@ var bpmPlayer = {
         console.log("BPM Array :");
         console.log(bpmArray);
 
-        bpmPlayer.sortTracks(); // Sort tracks
     },
 
     // Sort tracks based on their tempo
@@ -472,10 +461,10 @@ var bpmPlayer = {
     // Play a random track when the run begin
     playRandomTrack: function(){
         randomTrack = bpmArray[Math.floor(Math.random() * bpmArray.length)];
-        /** cordova.plugins.spotify.play(randomTrack.uri, { 
+        cordova.plugins.spotify.play(randomTrack.uri, { 
             clientId: bpmPlayer.spotifyAppClientId,
             token: bpmPlayer.accessToken
-          }).then(() => console.log("Music is playing ????"));*/
+          }).then(() => console.log("Music is playing ????"));
         
         // Reset the currentTrack and BPM mean value
         currentTrack = randomTrack;
@@ -483,13 +472,14 @@ var bpmPlayer = {
         compteur=0;
         console.log(currentTrack.name);
         bpmPlayer.udpateTrackInfos();
+        playingState = 1;
     },
 
     // Check constant position on the played track
     checkPosition: function(){
-        /**cordova.plugins.spotify.getPosition()
+        cordova.plugins.spotify.getPosition()
         .then(function(value){position = value;})
-        .catch(); */
+        .catch();
     },
 
     // When a track ends,play another one based on BPM mean from the last one
@@ -565,13 +555,30 @@ var bpmPlayer = {
     // React when a user press pause
     // TODO
     pauseTrack: function(){
-        
+        console.log(playingState);
+        if(playingState == 0){
+            bpmPlayer.resumeTrack();
+        }else{
+
+            cordova.plugins.spotify.pause()
+            .then(() => console.log("Music is paused ???"));
+
+            playingState = 0;
+
+            button_player.innerHTML = "&#9654";
+
+        }
     },
 
     // React when a user press resume
     // TODO
     resumeTrack: function(){
+        cordova.plugins.spotify.resume()
+        .then(() => console.log("Music is resuming"));
 
+        playingState = 1;
+
+        button_player.innerHTML = "&#9616;&nbsp;&#9612;";
     }
 };
 
