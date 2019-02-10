@@ -19,6 +19,8 @@ var player_trackTitle = document.getElementById("player_trackTitle");
 var player_trackArtist = document.getElementById("player_trackArtist");
 var trackImage = document.getElementById("trackImage");
 var button_player = document.getElementById("button_player");
+var button_playerArrowNext = document.getElementById("button_playerArrowNext");
+var button_playerArrowPrevious = document.getElementById("button_playerArrowPrevious");
 var totalArray = 0;
 var bpmArray = new Array();
 var tempoArray = new Array();
@@ -115,7 +117,7 @@ var bpmGauge = app.gauge.create({
     valueText: 'begin now!',
     valueFontSize: 60,
     valueTextColor: '#2196f3',
-    labelText: '&hearts; BPM',
+    labelText: '??? BPM',
   });
 
 // Login Screen Demo
@@ -222,7 +224,7 @@ var bluefruitConnect = {
   onData: function(data) { // data received from Arduino
 
       resultDiv.innerHTML = "";
-      resultDiv.innerHTML = resultDiv.innerHTML + "&hearts; " + bytesToString(data) + "<br/>";
+      resultDiv.innerHTML = resultDiv.innerHTML + "&hearts " + bytesToString(data) + "<br/>";
 
       resultInt=parseInt(bytesToString(data));
 
@@ -308,7 +310,8 @@ var bpmPlayer = {
     initializeSpotify: function() {
         this.bindSpotifyEvents();
         this.initConnect();
-        setInterval(bpmPlayer.checkPosition, 10);
+        //setInterval(bpmPlayer.checkPosition, 10);
+        //setInterval(bpmPlayer.onTrackEnd, 10);
     },
 
     spotifyAppClientId: "yourclientid",
@@ -486,7 +489,7 @@ var bpmPlayer = {
     onTrackEnd: function(){
         
         // If the track reach the end
-        if(currentTrack.duration - position < 500){
+        if((currentTrack.duration - position) > 500){
             console.log("Track is playing !");
         }else{
             console.log("Le track " + currentTrack.name + " est fini");
@@ -518,18 +521,22 @@ var bpmPlayer = {
         // Pick a song from the 4 categories of tempo intensity
         if(averageBPM<pulseMin+(pulseEtendue*(1/4))){
             nextTrack = tempo1[Math.floor(Math.random() * tempo1.length)];
+            console.log("tempo1");
         }
 
         if(averageBPM>pulseMin+(pulseEtendue*(1/4)) && averageBPM<pulseMin+(pulseEtendue*(2/4))){
             nextTrack = tempo2[Math.floor(Math.random() * tempo2.length)];
+            console.log("tempo2");
         }
 
         if(averageBPM>pulseMin+(pulseEtendue*(2/4)) && averageBPM<pulseMin+(pulseEtendue*(3/4))){
             nextTrack = tempo3[Math.floor(Math.random() * tempo3.length)];
+            console.log("tempo3");
         }
 
         if(averageBPM>pulseMin+(pulseEtendue*(3/4))){
             nextTrack = tempo4[Math.floor(Math.random() * tempo4.length)];
+            console.log("tempo4");
         }
     },
 
@@ -539,12 +546,14 @@ var bpmPlayer = {
             clientId: bpmPlayer.spotifyAppClientId,
             token: bpmPlayer.accessToken
           }).then(() => console.log("Music is playing ????"));
-        
-        currentTrack = nextTrack;
+
+        console.log("Play Track " + track.name);
+        currentTrack = track;
+        bpmPlayer.udpateTrackInfos();
+
     },
 
     // Udpate track widget on the page
-    // TODO
     udpateTrackInfos: function(){
         player_trackTitle.innerHTML = currentTrack.name;
         player_trackArtist.innerHTML = currentTrack.artists;
@@ -553,7 +562,6 @@ var bpmPlayer = {
     },  
 
     // React when a user press pause
-    // TODO
     pauseTrack: function(){
         console.log(playingState);
         if(playingState == 0){
@@ -571,7 +579,6 @@ var bpmPlayer = {
     },
 
     // React when a user press resume
-    // TODO
     resumeTrack: function(){
         cordova.plugins.spotify.resume()
         .then(() => console.log("Music is resuming"));
@@ -579,6 +586,15 @@ var bpmPlayer = {
         playingState = 1;
 
         button_player.innerHTML = "&#9616;&nbsp;&#9612;";
+    },
+
+    skipTrack: function(){
+        nextTrack = bpmArray[Math.floor(Math.random() * bpmArray.length)];
+        if(nextTrack == currentTrack){
+            nextTrack = bpmArray[Math.floor(Math.random() * bpmArray.length)];
+        }
+
+        bpmPlayer.playTrack(nextTrack);
     }
 };
 
@@ -602,5 +618,7 @@ var bpmPlayer = {
  * A FAIRE :
  * playState => sur pause ou pas
  * currentTrack{} => contient : position, tempo, name, imgUrl
+ * 
+ * AJOUTER : SI TRACK IS PLAYING SUR LA FONCTION ON END TRACK
  * 
  */
