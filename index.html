@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="css/icons.css">
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/index.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 
   <script
   src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -72,11 +73,16 @@
                 <div class="block block-strong" id="connectionPage">
                     <div class="block">
                         <div id="mainPage">
-                            <div class="block-title" id="listTitle">available devices :</div>
-                            <ul id="deviceList">                    
-                            </ul>                        
+                            <!--<div class="block-title" id="listTitle">available devices :</div>
+                            <ul id="deviceList"></ul>-->
+                            <div class="list">
+                              <ul id="deviceList">
+
+                              </ul>
+                            </div>                      
                       </div>
                     </div>
+                    
                 </div>
 
                 <div id="refreshButtonDiv">
@@ -96,7 +102,7 @@
                                 <div class="item-media"><img src="" width="76" id="trackImage"/></div>
                                 <div class="item-inner">
                                   <div class="item-title-row">
-                                    <div class="item-title" id="player_trackTitle"><b>No track played </b></div>
+                                    <div class="item-title" id="player_trackTitle">press <b>the play button</b> to start your run</div>
                                   </div>
                                   <div class="item-subtitle" id="player_trackArtist">--</div>
                                 </div>
@@ -152,7 +158,6 @@
                 <li>
                   <div class="block block-strong">
                       <button class="col button button-small button-round button-outline" id="updateIdButton">Update</button>
-                      <button class="col button button-small button-round button-outline" id="matchButton">Match</button>
                       <button class="col button button-small button-round button-outline" id="playRandomButton">Play</button>
                       <button class="col button button-small button-round button-outline" id="testButton">Test</button>
                     </div>

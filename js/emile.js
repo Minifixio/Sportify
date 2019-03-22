@@ -167,7 +167,7 @@ var bluefruitConnect = {
   },
   onDeviceReady: function() {
     bluefruitConnect.refreshDeviceList();
-    bluefruitConnect.showDetailPage();
+    //bluefruitConnect.showDetailPage();
   },
   
   refreshDeviceList: function() {
@@ -178,10 +178,12 @@ var bluefruitConnect = {
       // ble.scan([], 5, app.onDiscoverDevice, app.onError);
   },
   onDiscoverDevice: function(device) {
-      var listItem = document.createElement('li'),
+      /**var listItem = document.createElement('li'),
           html = '<b>' + device.name + '</b><br/>' +
               'RSSI: ' + device.rssi + '&nbsp;|&nbsp;' +
-              device.id;
+              device.id;*/
+      var listItem = document.createElement('li'),
+          html = '<a href="#" class="item-link item-content"><div class="item-media"><i class="f7-icons">arrow_right</i></div><div class="item-inner"><div class="item-title"><div class="item-header">' + device.id + '</div>' + device.name + '</div></div></a>';
 
       listItem.dataset.deviceId = device.id;
       listItem.innerHTML = html;
@@ -320,7 +322,7 @@ var bpmPlayer = {
 
     // Bind events
     bindSpotifyEvents: function() {
-        updateIdButton.addEventListener('click', bpmPlayer.listTracks, false);
+        updateIdButton.addEventListener('click', bpmPlayer.updateUsersPlaylist, false);
         matchButton.addEventListener('click', bpmPlayer.sortTracks, false);
         playRandomButton.addEventListener('click', bpmPlayer.playRandomTrack, false);
     },
@@ -360,6 +362,11 @@ var bpmPlayer = {
 
     // Get user playlist's with all the tracks
     listTracks: function(){
+
+        // Empty the bpmArray in case the user re-add a playlist
+        // TODO : Let the user add several playlist to the bpmArray to have a larger selection of titles
+
+        bpmArray = [];
         bpmPlayer.getAuthToken().done(function(data){
             console.log("Success : auth token collected !");
             console.log(data);
@@ -417,6 +424,12 @@ var bpmPlayer = {
 
     // Sort tracks based on their tempo
     sortTracks: function(){
+
+        // Reset the arrays in case the user re-sort the tracks
+        tempo1 = [];
+        tempo2 = [];
+        tempo3 = [];
+        tempo4 = [];
 
         console.log("Function : sortTracks");
 
@@ -595,6 +608,13 @@ var bpmPlayer = {
         }
 
         bpmPlayer.playTrack(nextTrack);
+    },
+
+    updateUsersPlaylist: function(){
+        bpmPlayer.listTracks();
+        setTimeout(function(){
+            bpmPlayer.sortTracks();
+        }, 2000);
     }
 };
 
