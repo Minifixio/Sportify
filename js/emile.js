@@ -115,7 +115,7 @@ var bpmGauge = app.gauge.create({
     borderColor: '#f44336',
     borderWidth: 20,
     valueText: 'begin now!',
-    valueFontSize: 60,
+    valueFontSize: 50,
     valueTextColor: '#2196f3',
     labelText: '??? BPM',
   });
@@ -177,18 +177,16 @@ var bluefruitConnect = {
       // if Android can't find your device try scanning for all devices
       // ble.scan([], 5, app.onDiscoverDevice, app.onError);
   },
-  onDiscoverDevice: function(device) {
-      /**var listItem = document.createElement('li'),
-          html = '<b>' + device.name + '</b><br/>' +
-              'RSSI: ' + device.rssi + '&nbsp;|&nbsp;' +
-              device.id;*/
-      var listItem = document.createElement('li'),
-          html = '<a href="#" class="item-link item-content"><div class="item-media"><i class="f7-icons">arrow_right</i></div><div class="item-inner"><div class="item-title"><div class="item-header">' + device.id + '</div>' + device.name + '</div></div></a>';
+    onDiscoverDevice: function(device) {
+        var listItem = document.createElement('li'),
+            html = '<b>' + device.name + '</b><br/>' +
+                'RSSI: ' + device.rssi + '&nbsp;|&nbsp;' +
+                device.id;
 
-      listItem.dataset.deviceId = device.id;
-      listItem.innerHTML = html;
-      deviceList.appendChild(listItem);
-  },
+        listItem.dataset.deviceId = device.id;
+        listItem.innerHTML = html;
+        deviceList.appendChild(listItem);
+    },
   connect: function(e) {
       var deviceId = e.target.dataset.deviceId,
           onConnect = function(peripheral) {
@@ -324,7 +322,7 @@ var bpmPlayer = {
     bindSpotifyEvents: function() {
         updateIdButton.addEventListener('click', bpmPlayer.updateUsersPlaylist, false);
         matchButton.addEventListener('click', bpmPlayer.sortTracks, false);
-        playRandomButton.addEventListener('click', bpmPlayer.playRandomTrack, false);
+        //playRandomButton.addEventListener('click', bpmPlayer.playRandomTrack, false);
     },
     
     // Init connect with API to access to playlist data's
@@ -442,7 +440,7 @@ var bpmPlayer = {
         tempoArray.sort(function(a, b) {
             return a - b;
           });
-        
+
         var bpmArrayLenght = bpmArray.length;
         
         // Add tracks to 4 categories (arrays) based on the average tempo amplitude
@@ -577,6 +575,9 @@ var bpmPlayer = {
     // React when a user press pause
     pauseTrack: function(){
         console.log(playingState);
+        if (typeof currentTrack == "undefined") {
+            bpmPlayer.playRandomTrack();
+         }
         if(playingState == 0){
             bpmPlayer.resumeTrack();
         }else{
@@ -614,7 +615,7 @@ var bpmPlayer = {
         bpmPlayer.listTracks();
         setTimeout(function(){
             bpmPlayer.sortTracks();
-        }, 2000);
+        }, 4000);
     }
 };
 
