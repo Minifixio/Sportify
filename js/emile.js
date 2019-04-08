@@ -310,8 +310,6 @@ var bpmPlayer = {
     initializeSpotify: function() {
         this.bindSpotifyEvents();
         this.initConnect();
-        //setInterval(bpmPlayer.checkPosition, 10);
-        //setInterval(bpmPlayer.onTrackEnd, 10);
     },
 
     spotifyAppClientId: spotifyIDs.clientId,
@@ -322,7 +320,6 @@ var bpmPlayer = {
     bindSpotifyEvents: function() {
         updateIdButton.addEventListener('click', bpmPlayer.updateUsersPlaylist, false);
         matchButton.addEventListener('click', bpmPlayer.sortTracks, false);
-        //playRandomButton.addEventListener('click', bpmPlayer.playRandomTrack, false);
     },
     
     // Init connect with API to access to playlist data's
@@ -618,28 +615,3 @@ var bpmPlayer = {
         }, 5000);
     }
 };
-
-/***************************************************************************** 
- * TODO
-*****************************************************************************/
-
-/**
- * recup position a partir de getPosition
- * faire une boucle while(currentTrack.duration - position > 1500) ajouter +1 a une valeur pour faire la barre de progression
- * a la fin de la boucle -> appeler match track
- * 
- * onTrackEnd() -> appeler des le lancement si playState = pause rien faire
- * 
- * changeTrack() -> changer de track en fonction du currentTrack.tempo
- * 
- * matchTrack(moyenne) => en fonction de moyenne et de currentTrack -> rapport ==> nextTempo
- * 
- * playTrack(nextTempo) => joue track en fonction du tempo
- * 
- * A FAIRE :
- * playState => sur pause ou pas
- * currentTrack{} => contient : position, tempo, name, imgUrl
- * 
- * AJOUTER : SI TRACK IS PLAYING SUR LA FONCTION ON END TRACK
- * 
- */
