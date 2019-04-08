@@ -298,11 +298,11 @@ var bluefruitConnect = {
 
 
 const config = {
-    clientId: "yourclientid",
+    clientId: spotifyIDs.clientId,
     redirectUrl: "festify-spotify://callback",
     scopes: ["streaming"], // see Spotify Dev console for all scopes
-    tokenExchangeUrl: "https://yoururl/dev/exchange",
-    tokenRefreshUrl: "https://yoururl/dev/refresh",
+    tokenExchangeUrl: spotifyIDs.tokenExchangeUrl,
+    tokenRefreshUrl: spotifyIDs.tokenRefreshUrl,
     };
 
 var bpmPlayer = {
@@ -314,8 +314,8 @@ var bpmPlayer = {
         //setInterval(bpmPlayer.onTrackEnd, 10);
     },
 
-    spotifyAppClientId: "yourclientid",
-    spotifyAppClientSecret: "yourclientsecret",
+    spotifyAppClientId: spotifyIDs.clientId,
+    spotifyAppClientSecret: spotifyIDs.spotifyAppClientSecret,
     accessToken: null,
 
     // Bind events
@@ -615,7 +615,7 @@ var bpmPlayer = {
         bpmPlayer.listTracks();
         setTimeout(function(){
             bpmPlayer.sortTracks();
-        }, 4000);
+        }, 5000);
     }
 };
 
