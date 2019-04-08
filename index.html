@@ -11,7 +11,7 @@
       * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
           * Enable inline JS: add 'unsafe-inline' to default-src
   -->
-  <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:">
+  <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content: ws: 'unsafe-inline';">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -26,10 +26,7 @@
   <link rel="stylesheet" href="css/index.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 
-  <script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
 </head>
 <body class="color-theme-red">
@@ -99,7 +96,7 @@
         
                             <ul>
                               <li class="item-content">
-                                <div class="item-media"><img src="../www/css/stick-man.png" width="76" id="trackImage"/></div>
+                                <div class="item-media"><img src="../www/css/stick-man.png" width="76" id="trackImage"></div>
                                 <div class="item-inner">
                                   <div class="item-title-row">
                                     <div class="item-title" id="player_trackTitle">press <b>the play button</b> to start your run</div>
@@ -149,7 +146,7 @@
                     <div class="item-inner">
                       <div class="item-title item-label">PLAYLIST LINK</div>
                       <div class="item-input-wrap">
-                        <input type="text" placeholder="spotify playlits url" id="spotifyId"/>
+                        <input type="text" placeholder="spotify playlits url" id="spotifyId">
                       </div>
                     </div>
                     <button class="col button button-small button-round button-outline" id="updateIdButton">Update</button>
@@ -186,6 +183,8 @@
   <script src="js/emile.js"></script>
   <script src="js/index.js"></script>
   <script src="js/test_platform.js"></script>
+  <script src="js/spotifyIDs.js"></script>
+
 
 
 
