@@ -615,7 +615,7 @@ var bpmPlayer = {
         bpmPlayer.listTracks();
         setTimeout(function(){
             bpmPlayer.sortTracks();
-        }, 4000);
+        }, 5000);
     }
 };
 
