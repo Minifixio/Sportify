@@ -39,16 +39,21 @@
       <!-- Tabbar for switching views-tabs -->
       <div class="toolbar tabbar-labels toolbar-bottom-md">
         <div class="toolbar-inner">
+
           <a href="#view-home" class="tab-link tab-link-active">
             <i class="f7-icons size-18">graph_round_fill</i>
             <span class="tabbar-label">Your run</span>
           </a>
-          <a href="#view-catalog" class="tab-link">
+
+          <a href="#view-playlistPage" class="tab-link">
             <i class="f7-icons size-18">tune_fill</i>
             <span class="tabbar-label">Playlist</span>
           </a>
+
         </div>
       </div>
+
+
 
       <!-- Your main view/tab, should have "view-main" class. It also has "tab-active" class -->
       <div class="tabs-animated-wrap">
@@ -67,24 +72,22 @@
                 
               <!-- Scrollable page content-->
               <div id="deviceready">
-                <div class="block block-strong" id="connectionPage">
-                    <div class="block">
-                        <div id="mainPage">
-                            <!--<div class="block-title" id="listTitle">available devices :</div>
-                            <ul id="deviceList"></ul>-->
-                            <div class="list">
-                              <ul id="deviceList">
 
-                              </ul>
-                            </div>                      
-                      </div>
-                    </div>
-                    
+                <div id="connectionPage">
+
+                <div class="block block-strong">
+                  <div class="block">
+                    <div class="list">
+                      <ul id="deviceList"></ul>
+                    </div>                      
+                  </div>
                 </div>
 
                 <div id="refreshButtonDiv">
                   <button class="col button button-small button-round button-outline" id="refreshButton">Refresh</button>
                 </div>
+
+              </div>
 
                 <!-- Detail page -->
                 <div id="detailPage">
@@ -108,22 +111,29 @@
         
                           </div>
                         </div>
-                        <div class="card-footer"><a href="" class="col button button-outline button-round" id="button_playerArrowPrevious">&#8592</a><a href="javascript:bpmPlayer.pauseTrack();" class="col button button-outline button-round" id="button_player">&#9654</a><a href="javascript:bpmPlayer.skipTrack();" class="col button button-outline button-round" id="button_playerArrowNext">&#8594</a></div>
+                        <div class="card-footer">
+                          <a href="" class="col button button-outline button-round" id="button_playerArrowPrevious">&#8592</a>
+                          <a href="javascript:bpmPlayer.pauseTrack();" class="col button button-outline button-round" id="button_player">&#9654</a>
+                          <a href="javascript:bpmPlayer.skipTrack();" class="col button button-outline button-round" id="button_playerArrowNext">&#8594</a>
+                        </div>
                       </div>
                     </div>
 
-                  <div id="sendDiv">
+                  <!---<div id="sendDiv">
                       <button class="button" id="sendButton">Send</button>                    
-                  </div>
+                  </div>-->
 
-                  <div id="pulseDiv">
+                  <!---<div id="pulseDiv">
                       <div id="pulseCircle" class="run-animation"></div>
                       <div id="resultDiv"></div>
-                  </div>
+                  </div>-->
+
                   <div class="gauge bpm-gauge" id="bpmGauge"></div>
 
                   <button class="col button button-small button-round button-outline" id="disconnectButton">Disconnect</button>
+
                 </div>
+
               </div>
             </div>
           </div>
@@ -131,7 +141,7 @@
 
 
           <!-- Playlist page -->
-          <div id="view-catalog" class="view tab">
+          <div id="view-playlistPage" class="view tab">
             
             <div class="navbar" id="titleHomePage">
               <div class="navbar-inner">
@@ -140,29 +150,29 @@
             </div>
 
             <div class="list no-hairlines-md" id="playListPage">
+
               <ul>
                 <li>
                   <div class="item-content item-input">
                     <div class="item-inner">
+
                       <div class="item-title item-label">PLAYLIST LINK</div>
                       <div class="item-input-wrap">
                         <input type="text" placeholder="spotify playlits url" id="spotifyId">
                       </div>
+
                     </div>
                     <button class="col button button-small button-round button-outline" id="updateIdButton">Update</button>
-
                   </div>
                 </li>
               </ul>
+
             </div>
+
           <button class="col button button-small button-round button-outline" id="testButton">Test</button>
           <button id="updateIdButton">Update</button>
           <button id="matchButton">Match</button>  
-          </div>
 
-          <!-- One more page -->
-          <div id="view-settings" class="view tab">
-            <!-- La page 3 -->
           </div>
         </div>
       </div>
@@ -181,12 +191,8 @@
   <!-- Your custom app scripts -->
   <script src="js/spotifyIDs.js"></script>
   <script src="js/emile.js"></script>
-  <script src="js/index.js"></script>
   <script src="js/test_platform.js"></script>
   <script src="js/spotifyIDs.js"></script>
-
-
-
 
   <script type="text/javascript">
     testApp.initialize();

@@ -21,6 +21,7 @@ var trackImage = document.getElementById("trackImage");
 var button_player = document.getElementById("button_player");
 var button_playerArrowNext = document.getElementById("button_playerArrowNext");
 var button_playerArrowPrevious = document.getElementById("button_playerArrowPrevious");
+
 var totalArray = 0;
 var bpmArray = new Array();
 var tempoArray = new Array();
@@ -28,6 +29,7 @@ var tempo1 = new Array();
 var tempo2 = new Array();
 var tempo3 = new Array();
 var tempo4 = new Array();
+
 const trackInfo = {};
 var currentTrack;
 var randomTrack;
@@ -46,7 +48,6 @@ var totalMoyenne = 0;
 var compteur = 0;
 var resultInt = 0;
 var total = 0;
-var pulseCircle = document.getElementById("pulseCircle");
 var refreshButtonDiv = document.getElementById("refreshButtonDiv");
 var connectionPage = document.getElementById("connectionPage");
 var titleHomePage = document.getElementById("titleHomePage");
@@ -62,36 +63,12 @@ var $$ = Dom7;
 // Framework7 App main instance
 var app  = new Framework7({
   root: '#app', // App root element
-  id: 'io.framework7.testapp', // App bundle ID
   name: 'Sportify', // App name
   theme: 'auto', // Automatic theme detection
   touch : {
     disableContextMenu: false,
   },
 
-  // App root data
-  data: function () {
-    return {
-      user: {
-        firstName: 'John',
-        lastName: 'Doe',
-      },
-      // Demo products for Catalog section
-      products: [
-        {
-          id: '1',
-          title: 'Apple iPhone 8',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi tempora similique reiciendis, error nesciunt vero, blanditiis pariatur dolor, minima sed sapiente rerum, dolorem corrupti hic modi praesentium unde saepe perspiciatis.'
-        },
-      ]
-    };
-  },
-  // App root methods
-  methods: {
-    helloWorld: function () {
-      app.dialog.alert('Hello World!');
-    },
-  },
   // App routes
   routes: routes,
 });
@@ -100,12 +77,10 @@ var app  = new Framework7({
 var homeView = app.views.create('#view-home', {
   url: '/'
 });
-var catalogView = app.views.create('#view-catalog', {
-  url: '/catalog/'
+var playlistPage = app.views.create('#view-playlistPage', {
+  url: '/playlistPage/'
 });
-var settingsView = app.views.create('#view-settings', {
-  url: '/settings/'
-});
+
 
 var bpmGauge = app.gauge.create({
     el: '.bpm-gauge',
@@ -118,21 +93,7 @@ var bpmGauge = app.gauge.create({
     valueFontSize: 50,
     valueTextColor: '#2196f3',
     labelText: '??? BPM',
-  });
-
-// Login Screen Demo
-$$('#my-login-screen .login-button').on('click', function () {
-  var username = $$('#my-login-screen [name="username"]').val();
-  var password = $$('#my-login-screen [name="password"]').val();
-
-  // Close login screen
-  app.loginScreen.close('#my-login-screen');
-
-  // Alert username and password
-  app.dialog.alert('Username: ' + username + '<br>Password: ' + password);
 });
-
-
 
 
 /***************************************************************************** 
@@ -151,6 +112,7 @@ var bluefruit = {
   rxCharacteristic: '6e400003-b5a3-f393-e0a9-e50e24dcca9e'  // receive is from the phone's perspective
 };
 
+
 var bluefruitConnect = {
 
   initializeBluetooth: function() {
@@ -161,13 +123,13 @@ var bluefruitConnect = {
   bindBluetoothEvents: function() {
       document.addEventListener('deviceready', this.onDeviceReady, false);
       refreshButton.addEventListener('touchstart', this.refreshDeviceList, false);
-      sendButton.addEventListener('click', this.sendData, false);
+      //sendButton.addEventListener('click', this.sendData, false);
       disconnectButton.addEventListener('touchstart', this.disconnect, false);
       deviceList.addEventListener('touchstart', this.connect, false); // assume not scrolling
   },
   onDeviceReady: function() {
     bluefruitConnect.refreshDeviceList();
-    //bluefruitConnect.showDetailPage();
+    bluefruitConnect.showConnectionPage();
   },
   
   refreshDeviceList: function() {
@@ -177,8 +139,9 @@ var bluefruitConnect = {
       // if Android can't find your device try scanning for all devices
       // ble.scan([], 5, app.onDiscoverDevice, app.onError);
   },
-    onDiscoverDevice: function(device) {
-        var listItem = document.createElement('li'),
+
+  onDiscoverDevice: function(device) {
+      var listItem = document.createElement('li'),
             html = '<b>' + device.name + '</b><br/>' +
                 'RSSI: ' + device.rssi + '&nbsp;|&nbsp;' +
                 device.id;
@@ -187,6 +150,7 @@ var bluefruitConnect = {
         listItem.innerHTML = html;
         deviceList.appendChild(listItem);
     },
+
   connect: function(e) {
       var deviceId = e.target.dataset.deviceId,
           onConnect = function(peripheral) {
@@ -274,22 +238,25 @@ var bluefruitConnect = {
       ble.disconnect(deviceId, bluefruitConnect.showConnectionPage, bluefruitConnect.onError);
       sendButton.style.display ="block";
   },
+
   showConnectionPage: function() {
-      refreshButtonDiv.hidden = false;
+      /**refreshButtonDiv.hidden = false;
       refreshButton.hidden = false;
-      connectionPage.hidden = false;
-      detailPage.hidden = true;
       sendButton.hidden = false;
-      titleHomePage.hidden = false;
+      titleHomePage.hidden = false; */
+      detailPage.hidden = true;
+      connectionPage.hidden = false;
   },
+
   showDetailPage: function() {
-      refreshButtonDiv.hidden = true;
+      /**refreshButtonDiv.hidden = true;
       refreshButton.hidden = true;
+      sendButton.hidden = true;
+      titleHomePage.hidden = true; */
       connectionPage.hidden = true;
       detailPage.hidden = false;
-      sendButton.hidden = true;
-      titleHomePage.hidden = true;
   },
+
   onError: function(reason) {
       alert("ERROR: " + JSON.stringify(reason)); // real apps should use notification.alert
   }
