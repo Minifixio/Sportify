@@ -58,19 +58,6 @@
     -webkit-animation:fade 3000ms infinite;
 }
 
-/**#resultDiv {
-    font: 40px "Source Sans", helvetica, arial, sans-serif;
-    font-weight: 50;
-    -webkit-border-radius: 6px;
-    width: auto;
-    height: auto;
-    position: relative;
-    text-align: center;
-    left: 40px;
-    right: 0;
-    bottom: 170px;
-}**/
-
 #moyenneDiv {
     font: 16px "Source Sans", helvetica, arial, sans-serif;
     font-weight: 200;
@@ -82,16 +69,6 @@
     overflow: auto;
 }
 
-/**#pulseCircle{
-    width: 300px;
-    height: 300px;
-    background-color: rgb(0, 119, 204);
-    border-radius: 50%;
-    position: relative;
-    left:40;
-    right:0;
-    margin:auto;
-}**/
 
 @keyframes pulse {
     0% {
@@ -106,15 +83,6 @@
     position:relative;
     animation: pulse 0.7s ease;
 }
-
-/**#pulseDiv{
-    display: inline-block;
-    position: relative;
-    margin: auto;
-    right: 0;
-    left: 0;
-    display: none;
-}**/
 
 .md .navbar .title{
     margin: auto;
@@ -172,8 +140,7 @@
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     width: 30%;
     margin: auto;
-    margin-bottom:10px;
-    display: none;
+    margin-top: 20px;
 }
 
 .music-player {
@@ -189,11 +156,6 @@
 #playListPage{
     top:40px;
 }
-
-/**#sendButton{
-    display: hidden;
-    visibility: hidden;
-}**/
 
 #button_playerArrowPrevious{
     font-size: 30px;
@@ -220,10 +182,6 @@
 #player_trackTitle{
     white-space: normal;
 }
-
-/**#sendDiv{
-    display: none;
-}**/
 
 #playerDiv{
     padding: 1px 10px 1px 10px;

@@ -56,7 +56,6 @@ var titleHomePage = document.getElementById("titleHomePage");
 var $$ = Dom7;
 
 
-
 /***************************************************************************** 
  * SETUP FRAMEWORK 7
 *****************************************************************************/
@@ -123,10 +122,10 @@ var bluefruitConnect = {
   bindBluetoothEvents: function() {
       document.addEventListener('deviceready', this.onDeviceReady, false);
       refreshButton.addEventListener('touchstart', this.refreshDeviceList, false);
-      //sendButton.addEventListener('click', this.sendData, false);
       disconnectButton.addEventListener('touchstart', this.disconnect, false);
       deviceList.addEventListener('touchstart', this.connect, false); // assume not scrolling
   },
+
   onDeviceReady: function() {
     bluefruitConnect.refreshDeviceList();
     bluefruitConnect.showConnectionPage();
@@ -187,8 +186,8 @@ var bluefruitConnect = {
 
   onData: function(data) { // data received from Arduino
 
-      resultDiv.innerHTML = "";
-      resultDiv.innerHTML = resultDiv.innerHTML + "&hearts " + bytesToString(data) + "<br/>";
+      //resultDiv.innerHTML = "";
+      //resultDiv.innerHTML = resultDiv.innerHTML + "&hearts " + bytesToString(data) + "<br/>";
 
       resultInt=parseInt(bytesToString(data));
 
@@ -240,19 +239,11 @@ var bluefruitConnect = {
   },
 
   showConnectionPage: function() {
-      /**refreshButtonDiv.hidden = false;
-      refreshButton.hidden = false;
-      sendButton.hidden = false;
-      titleHomePage.hidden = false; */
       detailPage.hidden = true;
       connectionPage.hidden = false;
   },
 
   showDetailPage: function() {
-      /**refreshButtonDiv.hidden = true;
-      refreshButton.hidden = true;
-      sendButton.hidden = true;
-      titleHomePage.hidden = true; */
       connectionPage.hidden = true;
       detailPage.hidden = false;
   },
@@ -285,8 +276,14 @@ var bpmPlayer = {
 
     // Bind events
     bindSpotifyEvents: function() {
-        updateIdButton.addEventListener('click', bpmPlayer.updateUsersPlaylist, false);
-        matchButton.addEventListener('click', bpmPlayer.sortTracks, false);
+        document.addEventListener('deviceready', this.onDeviceReady, false);
+        updateIdButton.addEventListener('click', this.updateUsersPlaylist, false);
+        matchButton.addEventListener('click', this.sortTracks, false);
+    },
+
+    onDeviceReady: function(){
+        console.log("Ready");
+        bpmPlayer.initConnect();
     },
     
     // Init connect with API to access to playlist data's
@@ -298,7 +295,7 @@ var bpmPlayer = {
             bpmPlayer.accessToken = accessToken.accessToken;
         console.log("Got an access token, its ")
         console.log(accessToken);
-        console.log("ts going to expire in " + expiresAt);
+        console.log("and it's going to expire in " + expiresAt);
         });
     },
 
@@ -327,8 +324,8 @@ var bpmPlayer = {
 
         // Empty the bpmArray in case the user re-add a playlist
         // TODO : Let the user add several playlist to the bpmArray to have a larger selection of titles
-
         bpmArray = [];
+
         bpmPlayer.getAuthToken().done(function(data){
             console.log("Success : auth token collected !");
             console.log(data);
@@ -339,8 +336,8 @@ var bpmPlayer = {
                 }  
             });
             
-            var spotifyIdCleared = spotifyIdInput.value.replace(/https.*playlist\//,"");
-            var spotifyPlaylistId = "https://api.spotify.com/v1/playlists/" + spotifyIdCleared; 
+            //var spotifyIdCleared = spotifyIdInput.value.replace(/https.*playlist\//,"");
+            var spotifyPlaylistId = "https://api.spotify.com/v1/playlists/" + spotifyIdInput.value.replace(/https.*playlist\//,""); 
 
             $.getJSON(spotifyPlaylistId, function(data){ // Get the playlist 
                 console.log("Et voila la playlist :");
@@ -379,6 +376,7 @@ var bpmPlayer = {
                 });
             });
         });
+
         console.log("BPM Array :");
         console.log(bpmArray);
 
@@ -392,8 +390,7 @@ var bpmPlayer = {
         tempo2 = [];
         tempo3 = [];
         tempo4 = [];
-
-        console.log("Function : sortTracks");
+        tempoArray = [];
 
         // Add all tracks tempos to an array
         bpmArray.forEach(function(track) {
@@ -416,20 +413,21 @@ var bpmPlayer = {
             }
 
             // Cool tempos
-            if(track.tempo>tempoArray[Math.round(bpmArrayLenght*(1/4))] && track.tempo<tempoArray[Math.round(bpmArrayLenght*(2/4))]){
+            if(track.tempo>=tempoArray[Math.round(bpmArrayLenght*(1/4))] && track.tempo<tempoArray[Math.round(bpmArrayLenght*(2/4))]){
                 tempo2.push(track);
             }
 
             // Medium tempos
-            if(track.tempo>tempoArray[Math.round(bpmArrayLenght*(2/4))] && track.tempo<tempoArray[Math.round(bpmArrayLenght*(3/4))]){
+            if(track.tempo>=tempoArray[Math.round(bpmArrayLenght*(2/4))] && track.tempo<tempoArray[Math.round(bpmArrayLenght*(3/4))]){
                 tempo3.push(track);
             }
 
             // Fast tempos
-            if(track.tempo>tempoArray[Math.round(bpmArrayLenght*(3/4))]){
+            if(track.tempo>=tempoArray[Math.round(bpmArrayLenght*(3/4))]){
                 tempo4.push(track);
             }
         })
+        
         console.log(tempo1);
         console.log(tempo2);
         console.log(tempo3);
@@ -438,7 +436,10 @@ var bpmPlayer = {
 
     // Play a random track when the run begin
     playRandomTrack: function(){
+        setInterval(bpmPlayer.onTrackEnd, 500);
+
         randomTrack = bpmArray[Math.floor(Math.random() * bpmArray.length)];
+
         cordova.plugins.spotify.play(randomTrack.uri, { 
             clientId: bpmPlayer.spotifyAppClientId,
             token: bpmPlayer.accessToken
@@ -447,8 +448,10 @@ var bpmPlayer = {
         // Reset the currentTrack and BPM mean value
         currentTrack = randomTrack;
         total = 0;
-        compteur=0;
-        console.log(currentTrack.name);
+        compteur = 0;
+        moyenne = 0;
+
+        console.log("(playRandomTrack) Current track : " + currentTrack.name);
         bpmPlayer.udpateTrackInfos();
         playingState = 1;
     },
@@ -462,7 +465,12 @@ var bpmPlayer = {
 
     // When a track ends,play another one based on BPM mean from the last one
     onTrackEnd: function(){
-        
+
+        cordova.plugins.spotify.getPosition()
+        .then(function(value){position = value;})
+
+        //console.log("(onTrackEnd) Position : " + position);
+
         // If the track reach the end
         if((currentTrack.duration - position) > 500){
             console.log("Track is playing !");
@@ -470,6 +478,7 @@ var bpmPlayer = {
             console.log("Le track " + currentTrack.name + " est fini");
             
             moyenne = total/compteur; // Get BPM mean value
+            console.log("La moyenne est de " + moyenne);
             bpmPlayer.matchTrack(moyenne); // Match track based on last song's BPM mean value
             
             // If the track is the same, repeat
@@ -496,22 +505,22 @@ var bpmPlayer = {
         // Pick a song from the 4 categories of tempo intensity
         if(averageBPM<pulseMin+(pulseEtendue*(1/4))){
             nextTrack = tempo1[Math.floor(Math.random() * tempo1.length)];
-            console.log("tempo1");
+            console.log("(matchTrack) Match to : tempo1");
         }
 
         if(averageBPM>pulseMin+(pulseEtendue*(1/4)) && averageBPM<pulseMin+(pulseEtendue*(2/4))){
             nextTrack = tempo2[Math.floor(Math.random() * tempo2.length)];
-            console.log("tempo2");
+            console.log("(matchTrack) Match to : tempo2");
         }
 
         if(averageBPM>pulseMin+(pulseEtendue*(2/4)) && averageBPM<pulseMin+(pulseEtendue*(3/4))){
             nextTrack = tempo3[Math.floor(Math.random() * tempo3.length)];
-            console.log("tempo3");
+            console.log("(matchTrack) Match to : tempo3");
         }
 
         if(averageBPM>pulseMin+(pulseEtendue*(3/4))){
             nextTrack = tempo4[Math.floor(Math.random() * tempo4.length)];
-            console.log("tempo4");
+            console.log("(matchTrack) Match to : tempo4");
         }
     },
 
@@ -522,18 +531,25 @@ var bpmPlayer = {
             token: bpmPlayer.accessToken
           }).then(() => console.log("Music is playing ????"));
 
-        console.log("Play Track " + track.name);
+        console.log("(playTrack) Current track " + track.name);
         currentTrack = track;
+        playingState = 1;
         bpmPlayer.udpateTrackInfos();
 
     },
 
     // Udpate track widget on the page
     udpateTrackInfos: function(){
+        if(playingState == 1){
+            button_player.innerHTML = "&#9616;&nbsp;&#9612;";
+        }
+        if(playingState == 0){
+            button_player.innerHTML = "&#9654";
+        }
+
         player_trackTitle.innerHTML = currentTrack.name;
         player_trackArtist.innerHTML = currentTrack.artists;
         trackImage.src = currentTrack.imgUrl;
-        console.log(currentTrack.imgUrl);
     },  
 
     // React when a user press pause
@@ -544,14 +560,15 @@ var bpmPlayer = {
          }
         if(playingState == 0){
             bpmPlayer.resumeTrack();
-        }else{
+        }
+        if(playingState == 1){
 
             cordova.plugins.spotify.pause()
             .then(() => console.log("Music is paused ???"));
 
             playingState = 0;
 
-            button_player.innerHTML = "&#9654";
+            bpmPlayer.udpateTrackInfos();
 
         }
     },
@@ -563,7 +580,7 @@ var bpmPlayer = {
 
         playingState = 1;
 
-        button_player.innerHTML = "&#9616;&nbsp;&#9612;";
+        bpmPlayer.udpateTrackInfos();
     },
 
     skipTrack: function(){
@@ -582,3 +599,5 @@ var bpmPlayer = {
         }, 5000);
     }
 };
+
+bpmPlayer.initializeSpotify();

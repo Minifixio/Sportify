@@ -1,4 +1,3 @@
-
 var testButton = document.getElementById("testButton");
 
 function stringToBytes(string) {
@@ -16,15 +15,16 @@ var testApp = {
     },
 
     startTest: function(){
-        testApp.playRandomTrackTest();
-        console.log(currentTrack.duration);
-        position = currentTrack.duration - 2000;
-        console.log(position);
-        console.log(currentTrack.duration - position);
+        //testApp.playRandomTrackTest();
+        bluefruitConnect.showDetailPage();
+        //console.log(currentTrack.duration);
+        //position = currentTrack.duration - 2000;
+        //console.log(position);
+        //console.log(currentTrack.duration - position);
         setInterval(testApp.onDataTest, 500);
-        setInterval(testApp.printInfos, 2000);
-        setInterval(testApp.positionTest, 500);
-        setInterval(testApp.onTrackEndTest, 500);
+        //setInterval(testApp.printInfos, 2000);
+        //setInterval(testApp.positionTest, 500);
+        //setInterval(testApp.onTrackEndTest, 500);
     },
 
     positionTest: function(){
