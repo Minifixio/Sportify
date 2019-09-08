@@ -600,4 +600,3 @@ var bpmPlayer = {
     }
 };
 
-bpmPlayer.initializeSpotify();

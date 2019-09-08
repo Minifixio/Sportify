@@ -1,0 +1,37 @@
+{
+    "name": "com.minifixio.sportify",
+    "displayName": "Sportify",
+    "version": "1.0.0",
+    "description": "A cordova-based application that adjust your music to your hearth beat",
+    "main": "emile.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Apache Cordova Team",
+    "license": "Apache-2.0",
+    "dependencies": {
+        "cordova-android": "^7.1.4",
+        "cordova-browser": "^5.0.4",
+        "cordova-clean": "^1.3.2",
+        "cordova-plugin-ble-central": "^1.2.2",
+        "cordova-plugin-browsersync": "^1.1.0",
+        "cordova-plugin-compat": "^1.2.0",
+        "cordova-plugin-whitelist": "^1.3.3",
+        "cordova-spotify": "^0.5.8",
+        "cordova-spotify-oauth": "^0.1.11",
+        "es6-promise-plugin": "^4.2.2"
+    },
+    "cordova": {
+        "plugins": {
+            "cordova-plugin-whitelist": {},
+            "cordova-plugin-browsersync": {},
+            "cordova-spotify-oauth": {},
+            "cordova-spotify": {},
+            "cordova-plugin-ble-central": {}
+        },
+        "platforms": [
+            "browser",
+            "android"
+        ]
+    }
+}
