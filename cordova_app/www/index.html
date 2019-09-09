@@ -33,7 +33,7 @@
   <div id="app">
     <!-- Status bar overlay for fullscreen mode-->
     <div class="statusbar"></div>
-    
+
     <!-- Views/Tabs container -->
     <div class="views tabs ios-edges">
       <!-- Tabbar for switching views-tabs -->
@@ -68,7 +68,7 @@
                   <div class="title sliding">Connect your device !</div>
                 </div>
               </div>
-                
+
               <!-- Scrollable page content-->
                 <div id="connectionPage">
 
@@ -76,7 +76,7 @@
                   <div class="block">
                     <div class="list">
                       <ul id="deviceList"></ul>
-                    </div>                      
+                    </div>
                   </div>
                 </div>
 
@@ -97,7 +97,7 @@
                     <div class="card">
                         <div class="card-content">
                           <div class="list media-list">
-        
+
                             <ul>
                               <li class="item-content">
                                 <div class="item-media"><img src="../www/css/stick-man.png" width="76" id="trackImage"></div>
@@ -109,11 +109,11 @@
                                 </div>
                               </li>
                             </ul>
-        
+
                           </div>
                         </div>
                         <div class="card-footer">
-                          <a href="" class="col button button-outline button-round" id="button_playerArrowPrevious">&#8592</a>
+                          <a href="javascript:bpmPlayer.lastTrack();" class="col button button-outline button-round" id="button_playerArrowPrevious">&#8592</a>
                           <a href="javascript:bpmPlayer.pauseTrack();" class="col button button-outline button-round" id="button_player">&#9654</a>
                           <a href="javascript:bpmPlayer.skipTrack();" class="col button button-outline button-round" id="button_playerArrowNext">&#8594</a>
                         </div>
@@ -121,7 +121,7 @@
                     </div>
 
                   <!---<div id="sendDiv">
-                      <button class="button" id="sendButton">Send</button>                    
+                      <button class="button" id="sendButton">Send</button>
                   </div>-->
 
                   <!---<div id="pulseDiv">
@@ -142,7 +142,7 @@
 
           <!-- Playlist page -->
           <div id="view-playlistPage" class="view tab">
-            
+
             <div class="navbar" id="titleHomePage">
               <div class="navbar-inner">
                 <div class="title sliding">Playlists</div>
@@ -171,7 +171,7 @@
 
           <button class="col button button-small button-round button-outline" id="testButton">Test</button>
           <button id="updateIdButton">Update</button>
-          <button id="matchButton">Match</button>  
+          <button id="matchButton">Match</button>
 
           </div>
         </div>
@@ -189,10 +189,12 @@
   <script src="js/routes.js"></script>
 
   <!-- Your custom app scripts -->
-  <script src="js/spotifyIDs.js"></script>
-  <script src="js/emile.js"></script>
-  <script src="js/test_platform.js"></script>
-
+  <script src="js/utils/spotifyIDs.js"></script>
+  <script src="js/utils/spotify-web-api.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/spotifyManager.js"></script>
+  <script src="js/bluetoothManager.js"></script>
+  <script src="js/tests/test_platform.js"></script>
 
   <script type="text/javascript">
     testApp.initialize();

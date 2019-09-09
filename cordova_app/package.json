@@ -3,7 +3,7 @@
     "displayName": "Sportify",
     "version": "1.0.0",
     "description": "A cordova-based application that adjust your music to your hearth beat",
-    "main": "emile.js",
+    "main": "app.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -24,7 +24,6 @@
     "cordova": {
         "plugins": {
             "cordova-plugin-whitelist": {},
-            "cordova-plugin-browsersync": {},
             "cordova-spotify-oauth": {},
             "cordova-spotify": {},
             "cordova-plugin-ble-central": {}

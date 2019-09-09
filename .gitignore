@@ -1,4 +1,4 @@
-cordova_app/www/js/spotifyIDs.js
+cordova_app/www/js/utils/spotifyIDs.js
 cordova_app/_platforms
 cordova_app/_plugins
 cordova_app/hooks

@@ -27,7 +27,6 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
-    <plugin name="cordova-plugin-browsersync" spec="^1.1.0" />
     <plugin name="cordova-spotify" spec="^0.5.8" />
     <plugin name="cordova-spotify-oauth" spec="^0.1.11" />
     <plugin name="cordova-plugin-ble-central" spec="^1.2.2" />
