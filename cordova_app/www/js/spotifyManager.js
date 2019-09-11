@@ -60,7 +60,7 @@ var bpmPlayer = {
     },
 
     onDeviceReady: function(){
-        console.log("Ready");
+        utils.debug("SpotifyManager is ready");
         bpmPlayer.initConnect();
     },
 
@@ -71,9 +71,8 @@ var bpmPlayer = {
         .authorize(config)
         .then(function(accessToken, expiresAt) {
             bpmPlayer.accessToken = accessToken.accessToken;
-        console.log("Got an access token, its ")
+        utils.debug("Got an access token expiring at " + expiresAt + " :");
         console.log(accessToken);
-        console.log("and it's going to expire in " + expiresAt);
         });
     },
 
@@ -93,7 +92,7 @@ var bpmPlayer = {
             .fail(function(jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR);
                 console.log(errorThrown);
-                console.log("Ah bah non, erreur : " + textStatus);
+                utils.debug("Ah bah non, erreur : " + textStatus);
             });
     },
 
@@ -105,8 +104,8 @@ var bpmPlayer = {
         bpmArray = [];
 
         bpmPlayer.getAuthToken().done(function(data){
-            console.log("Success : auth token collected !");
-            console.log(data);
+            utils.debug("Success : auth token collected !");
+            utils.debug(data);
             this.accessToken = data.access_token;
             $.ajaxSetup({
                headers : {
@@ -118,7 +117,7 @@ var bpmPlayer = {
             var spotifyPlaylistId = "https://api.spotify.com/v1/playlists/" + spotifyIdInput.value.replace(/https.*playlist\//,"");
 
             $.getJSON(spotifyPlaylistId, function(data){ // Get the playlist
-                console.log("Et voila la playlist :");
+                utils.debug("Et voila la playlist :");
                 console.log(data);
 
                 data.tracks.items.forEach(function(trackEntry){
@@ -155,7 +154,7 @@ var bpmPlayer = {
             });
         });
 
-        console.log("BPM Array :");
+        utils.debug("BPM Array :");
         console.log(bpmArray);
 
     },
@@ -223,7 +222,7 @@ var bpmPlayer = {
           cordova.plugins.spotify.play(randomTrack.uri, {
               clientId: bpmPlayer.spotifyAppClientId,
               token: bpmPlayer.accessToken
-            }).then(() => console.log("Music is playing ????"))
+            }).then(() => utils.debug("Music is playing"))
 
           // Reset the currentTrack and BPM mean value
           currentTrack = randomTrack;
@@ -231,9 +230,10 @@ var bpmPlayer = {
           compteur = 0;
           moyenne = 0;
 
-          console.log("(playRandomTrack) Current track : " + currentTrack.name);
+          utils.debug("(playRandomTrack) Current track : " + currentTrack.name);
           bpmPlayer.udpateTrackInfos();
           playingState = 1;
+
         }else{
           var toastPlaylistUnknown = app.toast.create({
             text: 'Vous devez ajouter une playlist dans la page playlist avant de lancer votre musique !',
@@ -243,15 +243,8 @@ var bpmPlayer = {
             closeButtonColor: 'red',
           });
           toastPlaylistUnknown.open();
-          console.log("Please add a playlist");
+          app.debug("Please add a playlist");
         }
-    },
-
-    // Check constant position on the played track
-    checkPosition: function(){
-        cordova.plugins.spotify.getPosition()
-        .then(function(value){position = value;})
-        .catch();
     },
 
     // When a track ends,play another one based on BPM mean from the last one
@@ -260,16 +253,12 @@ var bpmPlayer = {
         cordova.plugins.spotify.getPosition()
         .then(function(value){position = value;})
 
-        //console.log("(onTrackEnd) Position : " + position);
-
         // If the track reach the end
-        if((currentTrack.duration - position) > 500){
-            console.log("Track is playing !");
-        }else{
-            console.log("Le track " + currentTrack.name + " est fini");
+        if((currentTrack.duration - position) < 500){
+            utils.debug("Le track " + currentTrack.name + " est fini");
 
             moyenne = total/compteur; // Get BPM mean value
-            console.log("La moyenne est de " + moyenne);
+            utils.debug("La moyenne est de " + moyenne);
 
             lastTrack = currentTrack; // Current track becomes last track played
 
@@ -280,7 +269,7 @@ var bpmPlayer = {
                 bpmPlayer.matchTrack(moyenne);
             }
             else{
-                console.log("Prochain track : " + nextTrack.name);
+                utils.debug("Prochain track : " + nextTrack.name);
             }
 
             bpmPlayer.playTrack(nextTrack);
@@ -299,22 +288,22 @@ var bpmPlayer = {
         // Pick a song from the 4 categories of tempo intensity
         if(averageBPM<pulseMin+(pulseEtendue*(1/4))){
             nextTrack = tempo1[Math.floor(Math.random() * tempo1.length)];
-            console.log("(matchTrack) Match to : tempo1");
+            utils.debug("(matchTrack) Match to : tempo1");
         }
 
         if(averageBPM>pulseMin+(pulseEtendue*(1/4)) && averageBPM<pulseMin+(pulseEtendue*(2/4))){
             nextTrack = tempo2[Math.floor(Math.random() * tempo2.length)];
-            console.log("(matchTrack) Match to : tempo2");
+            utils.debug("(matchTrack) Match to : tempo2");
         }
 
         if(averageBPM>pulseMin+(pulseEtendue*(2/4)) && averageBPM<pulseMin+(pulseEtendue*(3/4))){
             nextTrack = tempo3[Math.floor(Math.random() * tempo3.length)];
-            console.log("(matchTrack) Match to : tempo3");
+            utils.debug("(matchTrack) Match to : tempo3");
         }
 
         if(averageBPM>pulseMin+(pulseEtendue*(3/4))){
             nextTrack = tempo4[Math.floor(Math.random() * tempo4.length)];
-            console.log("(matchTrack) Match to : tempo4");
+            utils.debug("(matchTrack) Match to : tempo4");
         }
     },
 
@@ -323,11 +312,13 @@ var bpmPlayer = {
         cordova.plugins.spotify.play(track.uri, {
             clientId: bpmPlayer.spotifyAppClientId,
             token: bpmPlayer.accessToken
-          }).then(() => console.log("Music is playing ????"));
+          }).then(() => {
+              utils.debug("Music is playing ????");
+              playingState = 1;
+            });
 
-        console.log("(playTrack) Current track " + track.name);
+        utils.debug("(playTrack) Current track " + track.name);
         currentTrack = track;
-        playingState = 1;
         bpmPlayer.udpateTrackInfos();
 
     },
@@ -348,22 +339,21 @@ var bpmPlayer = {
 
     // React when a user press pause
     pauseTrack: function(){
-        console.log(playingState);
         if (typeof currentTrack == "undefined") {
             bpmPlayer.playRandomTrack();
          }else{
            if(playingState == 0){
                bpmPlayer.resumeTrack();
-           }
-           if(playingState == 1){
+           }else{
+             if(playingState == 1){
+                cordova.plugins.spotify.pause()
+                .then(() => {
+                    console.log("Music is paused ???");
+                    playingState = 0;
+                });
 
-               cordova.plugins.spotify.pause()
-               .then(() => console.log("Music is paused ???"));
-
-               playingState = 0;
-
-               bpmPlayer.udpateTrackInfos();
-
+                bpmPlayer.udpateTrackInfos();
+              }
            }
          }
     },
@@ -371,9 +361,10 @@ var bpmPlayer = {
     // React when a user press resume
     resumeTrack: function(){
         cordova.plugins.spotify.resume()
-        .then(() => console.log("Music is resuming"));
-
-        playingState = 1;
+        .then(() => {
+            console.log("Music is resuming");
+            playingState = 1;
+        });
 
         bpmPlayer.udpateTrackInfos();
     },
@@ -395,6 +386,12 @@ var bpmPlayer = {
         bpmPlayer.listTracks();
         setTimeout(function(){
             bpmPlayer.sortTracks();
+            var toastPlaylistAdded = app.toast.create({
+                text: 'Votre Playlist a bien été ajoutée !',
+                position: 'top',
+                closeTimeout: 2000,
+              });
+              toastPlaylistAdded.open();
         }, 5000);
     }
 };

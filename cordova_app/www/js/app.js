@@ -13,7 +13,7 @@ var app  = new Framework7({
   },
 
   // App routes
-  routes: routes,
+  routes: routes
 });
 
 // Init/Create views
@@ -37,3 +37,10 @@ var bpmGauge = app.gauge.create({
     valueTextColor: '#2196f3',
     labelText: '❤ BPM',
 });
+
+var utils = {
+
+  debug: function(message){
+    console.log("[DEBUG] " + message);
+  }
+};

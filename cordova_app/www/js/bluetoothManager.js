@@ -26,8 +26,9 @@ var bluefruit = {
 var bluefruitConnect = {
 
   initializeBluetooth: function() {
-      this.bindBluetoothEvents();
       detailPage.hidden = true;
+      connectionPage.hidden = false;
+      this.bindBluetoothEvents();
   },
 
   bindBluetoothEvents: function() {
@@ -68,15 +69,13 @@ var bluefruitConnect = {
 
               // subscribe for incoming data
               ble.startNotification(deviceId, bluefruit.serviceUUID, bluefruit.rxCharacteristic, bluefruitConnect.onData, bluefruitConnect.onError);
-              sendButton.dataset.deviceId = deviceId;
               disconnectButton.dataset.deviceId = deviceId;
-              resultDiv.innerHTML = "";
               bluefruitConnect.showDetailPage();
-              sendButton.style.display ="none";
           };
 
       ble.connect(deviceId, onConnect, bluefruitConnect.onError);
   },
+
   determineWriteType: function(peripheral) {
       // Adafruit nRF8001 breakout uses WriteWithoutResponse for the TX characteristic
       // Newer Bluefruit devices use Write Request for the TX characteristic
@@ -111,42 +110,9 @@ var bluefruitConnect = {
       total = total+resultInt;
   },
 
-  sendData: function(event) { // send data to Arduino
-
-      var success = function() {
-          console.log("success");
-          resultDiv.innerHTML = resultDiv.innerHTML + "Sent: " + messageInput.value + "<br/>";
-          resultDiv.scrollTop = resultDiv.scrollHeight;
-      };
-
-      var failure = function() {
-          alert("Failed writing data to the bluefruit le");
-      };
-
-      var data = stringToBytes(messageInput.value);
-      var deviceId = event.target.dataset.deviceId;
-
-      if (bluefruitConnect.writeWithoutResponse) {
-          ble.writeWithoutResponse(
-              deviceId,
-              bluefruit.serviceUUID,
-              bluefruit.txCharacteristic,
-              data, success, failure
-          );
-      } else {
-          ble.write(
-              deviceId,
-              bluefruit.serviceUUID,
-              bluefruit.txCharacteristic,
-              data, success, failure
-          );
-      }
-  },
-
   disconnect: function(event) {
       var deviceId = event.target.dataset.deviceId;
       ble.disconnect(deviceId, bluefruitConnect.showConnectionPage, bluefruitConnect.onError);
-      sendButton.style.display ="block";
   },
 
   showConnectionPage: function() {
