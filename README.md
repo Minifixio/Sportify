@@ -17,7 +17,7 @@ You also need to install some plugins :
 You also nned to setup your own Serverless service for AWS Lambda for the Spotify OAuth plugin as mentionned [here](https://github.com/Festify/cordova-spotify-oauth) 
 Then, you need to connect your own Bluetooth device and connect it to the app !
 
-<b>OTHER USAGE :</b> Now, you can simply download the <i/>/cordova_app<i/> folder and then run the command <code>cordova platform add android</code> and then <code>cordova run android --device</code> to start the app on your Android device !
+<b>OTHER USAGE :</b> Now, you can simply download the <i>/cordova_app</i> folder and then run the command <code>cordova platform add android</code> and then <code>cordova run android --device</code> to start the app on your Android device !
 
 # Images of the project
 
