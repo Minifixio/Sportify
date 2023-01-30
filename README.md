@@ -1,7 +1,7 @@
 # Sportify App
 
-## **New version here : https://github.com/Minifixio/sportify_ionic**<br>
-A Cordova application that adjust your music to your heartbeat.
+
+A Cordova application that adjust your music to your heartbeat. 
 
 The application works with an Arduino assembly with a Flora V3, a Bluefruit LE (for the bluetooth communication) and a Pulse Sensor from [pulsesensor.com](pulsesensor.com).
 
@@ -31,7 +31,9 @@ Then, you need to connect your own Bluetooth device and connect it to the app !
 ## The Pulse Sensor
 <img src="./.previews/preview2.jpeg" width="500">
 <br/>
+<br/>
 
+**Note:** A new version of the application is available here : https://github.com/Minifixio/sportify_ionic
 
 ## Application preview
 <img src="./.previews/preview3.jpeg" width="200"> <img src="./.previews/preview4.jpeg" width="200"> <img src="./.previews/preview5.jpeg" width="200"> <img src="./.previews/preview6.jpeg" width="200">
