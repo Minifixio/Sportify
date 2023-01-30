@@ -24,14 +24,14 @@ Then, you need to connect your own Bluetooth device and connect it to the app !
 # Images of the project
 
 ## The Flora V3 and the Bluefruit LE
-<img src="https://i.imgur.com/gCRwqlX.jpg" width="500">
+<img src="./.previews/preview1.jpeg" width="500">
 <br/>
 
 
 ## The Pulse Sensor
-<img src="https://i.imgur.com/q1YlhTh.jpg" width="500">
+<img src="./.previews/preview2.jpeg" width="500">
 <br/>
 
 
 ## Application preview
-<img src="https://i.imgur.com/3JqUK6z.jpg" width="200"> <img src="https://i.imgur.com/m1K8HcI.jpg" width="200"> <img src="https://i.imgur.com/liSFfLh.jpgg" width="200"> <img src="https://i.imgur.com/WXXgMQi.jpg" width="200">
+<img src="./.previews/preview3.jpeg" width="200"> <img src="./.previews/preview4.jpeg" width="200"> <img src="./.previews/preview5.jpeg" width="200"> <img src="./.previews/preview6.jpeg" width="200">
